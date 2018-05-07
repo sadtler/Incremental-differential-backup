@@ -7,7 +7,7 @@ Features:
 - During retransmission of full or differential data, existing data is not re-transmitted, only synchronized, providing less network load
 
 2. Versatility:
-- You can specify after the name of the script the type of backup (full or differential), the host address and folders that need to be reserved (up to five)
+- You can specify after the name of the script the type of backup (full or differential), the host address and folders that need to be backed-up (up to five)
 
 3. Rotation and Archiving
 - Backups are archived and rotated. Only the last five versions of the full backup and eight differentials are preserved
@@ -29,6 +29,6 @@ Features:
 
 Crontab
 
-13 02 * * 1 /home/sergii/scripts/backup/backup.sh f oel:/root :/home/sergij
+13 02 * * 1 /home/sergii/scripts/backup/backup.sh f backup@example.com:/root:/home/sergij
 
-13 03 * * * /home/sergii/scripts/backup/backup.sh d oel:/root :/home/sergij
+13 03 * * * /home/sergii/scripts/backup/backup.sh d backup@example.com:/root:/home/sergij
