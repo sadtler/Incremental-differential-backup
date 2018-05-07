@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# логіка така: скрипт запускається cron на бекап-сервері, підключається до іншого сервера і копіює необхідні папки
-# Full-бекап запускається раз в тиждень
-# Diff-бекап запускається щодня
+# logic is this: the script runs cron on the backup server, connects to another server and copies the necessary folders
+# Full-backup is started once a week
+# Diff-backup is started every day
+
 set -x
-bdir=/var/backup	# директорія де зберігаються бекапи. Містить 6 папок: dbase, diff, fbase, full, log, restor
+bdir=/var/backup	# the directory where the backups are stored. Contains 6 folders: dbase, diff, fbase, full, log, restore
 
 sdir1=`echo $2`		# папки на віддаленому сервері, об'єкти бекапу 
 sdir2=`echo $3`
@@ -14,7 +15,7 @@ sdir5=`echo $6`
 
 slog=/var/backup/savelog		# повідомлення, що надсилається у випадку невдачі на пошту
 elog=/var/backup/log/errorlog		# записуються помилки під час бекапу
-rlog=/var/backup/restorlog		# записуються помилки під час відновлення
+rlog=/var/backup/restorelog		# записуються помилки під час відновлення
 
 email=sergii@localhost			# поштова скринька
 rotate="/usr/sbin/logrotate -f"		# ротація архівів бекапів і логів
@@ -67,7 +68,7 @@ case $1 in
 	echo "Diff backup finished: " `date +%a_%d-%m-%Y_%T` >> $slog
 	cp -f $slog $bdir/dbase/
 	;;
-#CRETE BACKUP DIRS
+#CREATE BACKUP DIRS
 [c])
 	mkdir $bdir
 	mkdir $bdir/dbase
@@ -75,8 +76,8 @@ case $1 in
 	mkdir $bdir/fbase
 	mkdir $bdir/full
 	mkdir $bdir/log
-	mkdir $bdir/restor
-	echo "Stvoreno!"
+	mkdir $bdir/restore
+	echo "Created!"
 	;;
 #REMOVE BACKUP FILES
 [r])
@@ -85,24 +86,24 @@ case $1 in
 	rm -rf $bdir/fbase/*
 	rm -rf $bdir/full/*
 	rm -rf $bdir/log/*
-	rm -rf $bdir/restor/*
+	rm -rf $bdir/restore/*
 	echo " " > $slog
 	echo " " > $rlog
-	echo "Vudaleno!"
+	echo "Success!"
 	;;
 #RESTORE FULL BACRUP
 "rf")
 	echo "Full restore " `date +%a_%d-%m-%Y_%T` > $rlog
 	if [ $2 = 1 ]; then
-		rsync -a $bdir/fbase/ $bdir/restor/ >> $rlog
+		rsync -a $bdir/fbase/ $bdir/restore/ >> $rlog
 	elif [ $2 = 2 ]; then
-		tar -xpf $bdir/full/*.1 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/full/*.1 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 3 ]; then
-		tar -xpf $bdir/full/*.2 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/full/*.2 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 4 ]; then
-		tar -xpf $bdir/full/*.3 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/full/*.3 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 5 ]; then
-		tar -xpf $bdir/full/*.4 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/full/*.4 -C $bdir/restore/ --strip-components=3 >> $rlog
 	fi
 	echo "-------" >> $rlog
 ;;
@@ -110,21 +111,21 @@ case $1 in
 "rd")
 	echo "Diff restore " `date +%a_%d-%m-%Y_%T` >> $rlog
 	if [ $2 = 1 ]; then
-		rsync -au $bdir/dbase/ $bdir/restor/ >> $rlog
+		rsync -au $bdir/dbase/ $bdir/restore/ >> $rlog
 	elif [ $2 = 2 ]; then
-		tar -xpf $bdir/diff/*.1 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.1 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 3 ]; then
-		tar -xpf $bdir/diff/*.2 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.2 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 4 ]; then
-		tar -xpf $bdir/diff/*.3 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.3 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 5 ]; then
-		tar -xpf $bdir/diff/*.4 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.4 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 6 ]; then
-		tar -xpf $bdir/diff/*.5 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.5 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 7 ]; then
-		tar -xpf $bdir/diff/*.6 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.6 -C $bdir/restore/ --strip-components=3 >> $rlog
 	elif [ $2 = 8 ]; then
-		tar -xpf $bdir/diff/*.7 -C $bdir/restor/ --strip-components=3 >> $rlog
+		tar -xpf $bdir/diff/*.7 -C $bdir/restore/ --strip-components=3 >> $rlog
 	fi
 ;;
 esac
