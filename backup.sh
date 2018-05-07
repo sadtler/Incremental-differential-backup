@@ -5,20 +5,20 @@
 # Diff-backup is started every day
 
 set -x
-bdir=/var/backup	# the directory where the backups are stored. Contains 6 folders: dbase, diff, fbase, full, log, restore
+bdir=/var/backup	# The directory where the backups are stored. Contains 6 folders: dbase, diff, fbase, full, log, restore
 
-sdir1=`echo $2`		# папки на віддаленому сервері, об'єкти бекапу 
+sdir1=`echo $2`		# Folders on a remote server, backup objects 
 sdir2=`echo $3`
 sdir3=`echo $4`
 sdir4=`echo $5`
 sdir5=`echo $6`
 
-slog=/var/backup/savelog		# повідомлення, що надсилається у випадку невдачі на пошту
-elog=/var/backup/log/errorlog		# записуються помилки під час бекапу
-rlog=/var/backup/restorelog		# записуються помилки під час відновлення
+slog=/var/backup/savelog		# Message sent in case of failure by email
+elog=/var/backup/log/errorlog		# Write errors during backup
+rlog=/var/backup/restorelog		# Recording errors during recovery
 
-email=sergii@localhost			# поштова скринька
-rotate="/usr/sbin/logrotate -f"		# ротація архівів бекапів і логів
+email=root@localhost			# Mailbox
+rotate="/usr/sbin/logrotate -f"		# Rotation of archives of backup and logs
 
 case $1 in
 
