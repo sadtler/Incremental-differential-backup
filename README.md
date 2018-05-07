@@ -4,7 +4,7 @@ Features:
 
 1. Full and Differential
 - Reservation is made both for the complete copy of the data, and for the differences between the backups
-- During retransmission of full or differential data, existing recipient data is not re-transmitted, only synchronized, providing less network load
+- During retransmission of full or differential data, existing data is not re-transmitted, only synchronized, providing less network load
 
 2. Versatility:
 - You can specify after the name of the script the type of backup (full or differential), the host address and folders that need to be reserved (up to five)
