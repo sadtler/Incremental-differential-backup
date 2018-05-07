@@ -1,31 +1,31 @@
 # Incremental-differential-backup
 
-Можливості:
+Features:
 
-1. Фул і диференційний
-- здійснюється резервування як і повної копії даних, так і відмінностей між фулами
-- під час повторної передачі фулу чи диференціального, дані, які існують на приймаючій стороні заново не передаються, лише синхронізуються, забезпечуючи менше навантаження на мережу
+1. Full and Differential
+- Reservation is made both for the complete copy of the data, and for the differences between the backups
+- During retransmission of full or differential data, existing recipient data is not re-transmitted, only synchronized, providing less network load
 
-2. Універсальність: 
-- можна задавати після імені скрипта тип бекапу (фул чи диференційний), адресу хоста і папки, які необхідно резервувати (до 5)
+2. Versatility:
+- You can specify after the name of the script the type of backup (full or differential), the host address and folders that need to be reserved (up to five)
 
-3. Ротація і архівування
-- бекапи архівуються і ротуються. Зберігвється лише 5 останніх версій фул-бекапу і 8 диференцйного
+3. Rotation and Archiving
+- Backups are archived and rotated. Only the last five versions of the full backup and eight differentials are preserved
 
-4. Логування:
-- усі помилки під час процесу бекапу записуються до файлу-логу під час фул бекапу і дописуються під час диференційного
-- логи ротуються, зберігається лише 10 останніх повідомлень 
+4. Login:
+- All errors during the backup process are written to the log file during the full backup and are added at the time of the differential
+- Logs are rotated, only the last 10 messages are stored
 
-5. Інформування:
-- у випадку не успішного процесу, буде вислано повідомлення на e-mail адресу
-- увипадку успіху в файлі буде збержено час, затрачений на останній процес бекапу
+5. Informing:
+- In the case of a failed process, the message will be sent by e-mail
+- In case of success in the file, the time taken for the last backup process will be saved
 
-6. Автоматизація 
-- створення папок необхідних для бекапу і при потребі очистка їх вмісту реалізонана параметрами до назви скрипта
+6. Automation
+- Creation of folders necessary for backup and, if necessary, clearing their contents realization parameters by name of the script
 
-7. Відновлення
-- реалізовано автоматизоване відновлення даних і накладання диференціальних бекапів на фул
-- кожен архів містить файл з точною датою і часом, затраченим на процес бекапу
+7. Restoration
+- Implemented automated data recovery and overlay differential backup on full
+- Each archive contains a file with the exact date and time spent on the backup process
 
 Crontab
 
